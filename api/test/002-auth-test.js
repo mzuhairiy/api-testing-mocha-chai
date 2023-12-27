@@ -21,7 +21,9 @@ const expectedAuthKeys = [
     "data", "status", "message"
 ]
 
-describe('User login', () => {
+let accessToken;
+
+describe('Authentication Endpoint', () => {
     it(`@post ${testCase.positive.validData}`, async () => {
         //hit api and check
         const response = await getAccessToken(authData);
@@ -100,3 +102,7 @@ describe('User login', () => {
         assert(response.body.message).to.equal('\"password\" is not allowed to be empty');
     })
 });
+
+module.exports = {
+    accessToken
+}

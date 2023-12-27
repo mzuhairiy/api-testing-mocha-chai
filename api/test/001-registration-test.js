@@ -16,7 +16,7 @@ const expectedRegistrationKeys = [
     "data", "status", "message"
 ]
 
-describe('User registration', () => {
+describe('User Registration Endpoint', () => {
     it(`@post ${testCase.positive.validData}`, async () => {
         //compose registration request data
         registrationData.name = faker.person.fullName();

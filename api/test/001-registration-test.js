@@ -17,7 +17,7 @@ const expectedRegistrationKeys = [
 ]
 
 describe('User Registration Endpoint', () => {
-    it(`@post ${testCase.positive.validData}`, async () => {
+    it(`@register ${testCase.positive.validData}`, async () => {
         //compose registration request data
         registrationData.name = faker.person.fullName();
         registrationData.email = faker.internet.email();
@@ -35,7 +35,7 @@ describe('User Registration Endpoint', () => {
         tokoName = response.body.data.name;
         //console.log(tokoName);
     })
-    it(`@post ${testCase.negative.invalidData}`, async () => {
+    it(`@register ${testCase.negative.invalidData}`, async () => {
         //compose registration request data
         registrationData.name = ("");
         registrationData.email = faker.internet.email();

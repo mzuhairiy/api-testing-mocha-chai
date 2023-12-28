@@ -24,7 +24,7 @@ const expectedAuthKeys = [
 let accessToken;
 
 describe('Authentication Endpoint', () => {
-    it(`@post ${testCase.positive.validData}`, async () => {
+    it(`@auth ${testCase.positive.validData}`, async () => {
         //hit api and check
         const response = await getAccessToken(authData);
         assert(response.status).to.equal(201);
@@ -38,7 +38,7 @@ describe('Authentication Endpoint', () => {
         //console.log(accessToken);
     })
 
-    it(`@post ${testCase.negative.invalidCredentials}`, async () => {
+    it(`@auth ${testCase.negative.invalidCredentials}`, async () => {
         //compose request data
         authData.email = faker.internet.email();
         authData.password = faker.internet.password();
@@ -51,7 +51,7 @@ describe('Authentication Endpoint', () => {
         assert(response.body.message).to.equal('Kredensial yang Anda berikan salah');
     })
 
-    it(`@post ${testCase.negative.invalidEmail}`, async () => {
+    it(`@auth ${testCase.negative.invalidEmail}`, async () => {
         //compose request data
         authData.email = ("abc");
         authData.password = faker.internet.password();
@@ -64,7 +64,7 @@ describe('Authentication Endpoint', () => {
         assert(response.body.message).to.equal('\"email\" must be a valid email');
     })
 
-    it(`@post ${testCase.negative.invalidPassword}`, async () => {
+    it(`@auth ${testCase.negative.invalidPassword}`, async () => {
         //compose request data
         authData.email = faker.internet.email();
         authData.password = faker.internet.password();
@@ -77,7 +77,7 @@ describe('Authentication Endpoint', () => {
         assert(response.body.message).to.equal('Kredensial yang Anda berikan salah');
     })
 
-    it(`@post ${testCase.negative.emptyEmail}`, async () => {
+    it(`@auth ${testCase.negative.emptyEmail}`, async () => {
         //compose request data
         authData.email = ("");
 
@@ -89,7 +89,7 @@ describe('Authentication Endpoint', () => {
         assert(response.body.message).to.equal('\"email\" is not allowed to be empty');
     })
 
-    it(`@post ${testCase.negative.emptyPassowrd}`, async () => {
+    it(`@auth ${testCase.negative.emptyPassowrd}`, async () => {
         //compose request data
         authData.email = faker.internet.email();
         authData.password = ("");

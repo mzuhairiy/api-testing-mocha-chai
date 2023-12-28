@@ -2,6 +2,12 @@ const supertest = require("supertest");
 const env = require("dotenv").config;
 const api = supertest(process.env.BASE_URL);
 
+const addUser = (token, data) => api.post('/users')
+    .set('Content-Type', 'application/json')
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${token}`)
+    .send(data);
+
 const getAllUser = (token) => api.get('/users')
     .set('Content-Type', 'application/json')
     .set('Accept', 'application/json')
@@ -21,5 +27,6 @@ const updateUser = (token, userId, data) => api.put(`/users/${userId}`)
 module.exports = {
     getAllUser,
     getUserById,
-    updateUser
+    updateUser,
+    addUser
 };

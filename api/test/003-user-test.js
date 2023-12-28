@@ -1,6 +1,6 @@
 const { describe } = require('mocha');
 const { getAccessToken } = require('../page/002-auth-page');
-const { getAllUser, getUserById, updateUser, addUser } = require('../page/003-user-page');
+const { getAllUser, getUserById, updateUser, addUser, deleteUser } = require('../page/003-user-page');
 const { faker } = require('@faker-js/faker');
 const assert = require('chai').expect;
 
@@ -10,7 +10,8 @@ const testCase = {
         addUserWithValidData: "As a User, I want to add new user with valid data",
         getAllUsers : "As a User, I want to get all users",
         getUserById : "As a User, I want to get users by user id",
-        updateUser : "As a User, I want to update my data with valid data"
+        updateUser : "As a User, I want to update my data with valid data",
+        deleteUser : "As a System, I want to delete a user"
     },
     negative : {
         addWithInvalidToken : "As a User, I should got an error when I add new user with invalid token",
@@ -153,7 +154,7 @@ describe('Users Endpoint', () => {
     })
 
     it(`@user ${testCase.negative.getWithEmptyToken}`, async() => {
-        const response = await getUserById('', userId);
+        const response = await getUserById('', userId.userId);
         assert(response.status).to.equal(401);
         assert(response.body.error).to.equal('Unauthorized');
         assert(response.body.message).to.equal('Bad HTTP authentication header format');
@@ -168,7 +169,7 @@ describe('Users Endpoint', () => {
 
     it(`@user ${testCase.negative.updateWithEmptyEmail}`, async() => {
         userData.email = ("");
-        const response = await updateUser(accessToken.accessToken, userId, userData);
+        const response = await updateUser(accessToken.accessToken, userId.userId, userData);
         assert(response.status).to.equal(400);
         assert(response.body.status).to.equal('fail');
         assert(response.body.message).to.equal('"email" is not allowed to be empty');
@@ -176,7 +177,7 @@ describe('Users Endpoint', () => {
 
     it(`@user ${testCase.negative.updateWithInvalidEmail}`, async() => {
         userData.email = ("aaa");
-        const response = await updateUser(accessToken.accessToken, userId, userData);
+        const response = await updateUser(accessToken.accessToken, userId.userId, userData);
         assert(response.status).to.equal(400);
         assert(response.body.status).to.equal('fail');
         assert(response.body.message).to.equal('"email" must be a valid email');
@@ -184,10 +185,18 @@ describe('Users Endpoint', () => {
 
     it(`@user ${testCase.negative.updateWithEmptyName}`, async() => {
         userData.name = ("");
-        const response = await updateUser(accessToken.accessToken, userId, userData);
+        const response = await updateUser(accessToken.accessToken, userId.userId, userData);
         assert(response.status).to.equal(400);
         assert(response.body.status).to.equal('fail');
         assert(response.body.message).to.equal('"name" is not allowed to be empty');
     })
-    
+
+    it(`@user ${testCase.positive.deleteUser}`, async() => {
+        const response = await deleteUser(accessToken.accessToken, userId.userId);
+        assert(response.status).to.equal(200);
+        assert(response.body.status).to.equal('success');
+        assert(response.body).to.have.keys(["status", "message"]);
+        assert(response.body.message).to.equal('User berhasil dihapus')
+    })
+
 })

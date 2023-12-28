@@ -24,9 +24,15 @@ const updateUser = (token, userId, data) => api.put(`/users/${userId}`)
     .set('Authorization', `Bearer ${token}`)
     .send(data)
 
+const deleteUser = (token, userId) => api.delete(`/users/${userId}`)
+   .set('Content-Type', 'application/json')
+   .set('Accept', 'application/json')
+   .set('Authorization', `Bearer ${token}`)
+
 module.exports = {
     getAllUser,
     getUserById,
     updateUser,
-    addUser
+    addUser,
+    deleteUser
 };

@@ -1,6 +1,6 @@
 const supertest = require("supertest");
-const env = require("dotenv").config();
-const api = require(process.env.BASE_URL);
+const env = require("dotenv").config;
+const api = supertest(process.env.BASE_URL);
 
 const addUnit = (token, data) => api.post(`/units`)
     .set('Content-Type', 'application/json')

@@ -103,6 +103,18 @@ describe('Users Endpoint', () => {
         userId = response.body.data;
     })
 
+    it(`@user ${testCase.positive.updateUser}`, async() => {
+        userData.name = faker.person.firstName();
+        userData.email = faker.internet.email();
+
+        const response = await updateUser(accessToken.accessToken, userId.userId, userData);
+        assert(response.status).to.equal(200);
+        assert(response.body.status).to.equal('success');
+        assert(response.body).to.have.keys(["status", "message", "data"]);
+        assert(response.body.data).to.be.an('object');
+        //console.log(response.body);
+    })
+
     it(`@user ${testCase.negative.addWithInvalidToken}`, async() => {
         const response = await addUser(accessToken.accessToken + '1', newUser);
         assert(response.status).to.equal(401);
@@ -132,18 +144,6 @@ describe('Users Endpoint', () => {
         assert(response.status).to.equal(400);
         assert(response.body.status).to.equal('fail');
         assert(response.body.message).to.equal('\"password\" is not allowed to be empty');
-    })
-
-    it(`@user ${testCase.positive.updateUser}`, async() => {
-        userData.name = faker.person.firstName();
-        userData.email = faker.internet.email();
-
-        const response = await updateUser(accessToken.accessToken, userId.userId, userData);
-        assert(response.status).to.equal(200);
-        assert(response.body.status).to.equal('success');
-        assert(response.body).to.have.keys(["status", "message", "data"]);
-        assert(response.body.data).to.be.an('object');
-        //console.log(response.body);
     })
 
     it(`@user ${testCase.negative.getWithInvalidToken}`, async() => {

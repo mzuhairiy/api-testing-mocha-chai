@@ -15,20 +15,24 @@ const testCase = {
         deleteUnit : "As a User, I want to delete a unit"
     },
     negative : {
-        createWithInvalidToken : "As a User, I should got an error when trying to create with invalid token",
-        createWithEmptyToken : "As a User, I shoukd got an error when trying to create with empty token",
-        createWithEmptyName : "As a User, I should got an error when trying to create with empty name",
+        createWithInvalidToken : "As a User, I should got an error when trying to create a new unit with invalid token",
+        createWithEmptyName : "As a User, I should got an error when trying to create a new with empty name",
         getAllUnitsWithInvalidToken : "As a User, I should got an error when trying to get all units with invalid token",
-        getAllUnitsWithEmptyToken : "As a User, I should got an error when trying to get all units with empty token",
         getWithInvalidUnitId : "As a User, I should got an error when trying to get an unit with invalid unit id",
-        getWithEmptyUnitId : "As a User, I should got an error when trying to get an unit with empty unit id",
         updateWithInvalidUnitId : "As a User, I should got an error when trying to update an unit with invalid unit id",
-        updateWithEmptyUnitId : "As a User, I should got an error when trying to update an unit with empty unit id",
     }
 }
 
 let accessToken;
 let unitId;
+let emptyDescUnitData = {
+    "name" : "KG",
+    "description" : ""
+};
+let emptyNameUnitData = {
+    "name" : "",
+    "description" : "berat container"
+};
 
 describe('Units Endpoint', () => {
     before(async () => {
@@ -53,15 +57,14 @@ describe('Units Endpoint', () => {
         //console.log(unitId);
     })
 
-    // it(`@unit ${testCase.positive.createWithEmptyDescription}`, async() => {
-    //     //hit api and check
-    //     unitData.description = "";
-    //     const response = await addUnit(accessToken.accessToken, unitData);
-    //     assert(response.status).to.equal(201);
-    //     assert(response.body).to.have.keys(["status", "message", "data"]);
-    //     assert(response.body.status).to.equal('success');
-    //     assert(response.body.message).to.equal('Unti berhasil ditambahkan');
-    // })
+    it(`@unit ${testCase.positive.createWithEmptyDescription}`, async() => {
+        //hit api and check
+        const response = await addUnit(accessToken.accessToken, emptyDescUnitData);
+        assert(response.status).to.equal(201);
+        assert(response.body).to.have.keys(["status", "message", "data"]);
+        assert(response.body.status).to.equal('success');
+        assert(response.body.message).to.equal('Unti berhasil ditambahkan');
+    })
 
     it(`@unit ${testCase.positive.getAllUnitsWithValidToken}`, async() => {
         //hit api and check
@@ -96,5 +99,51 @@ describe('Units Endpoint', () => {
         assert(response.status).to.equal(200);
         assert(response.body).to.have.keys(["status", "data"]);
         assert(response.body.status).to.equal('success');
+    })
+
+    it(`@unit ${testCase.negative.createWithInvalidToken}`, async() => {
+        //hit api and check
+        const response = await addUnit(accessToken.accessToken + '1', unitData);
+        assert(response.status).to.equal(401);
+        assert(response.body).to.have.keys(["statusCode", "error", "message", "attributes"]);
+        assert(response.body.error).to.equal('Unauthorized');
+        assert(response.body.message).to.equal('Invalid token signature');
+    })
+
+    it(`@unit ${testCase.negative.createWithEmptyName}`, async() => {
+        //hit api and check
+        const response = await addUnit(accessToken.accessToken, emptyNameUnitData);
+        assert(response.status).to.equal(400);
+        assert(response.body).to.have.keys(["status", "message"]);
+        assert(response.body.status).to.equal('fail');
+        assert(response.body.message).to.equal('name is required, description is optional');
+    })
+
+    it(`@unit ${testCase.negative.getAllUnitsWithInvalidToken}`, async() => {
+        //hit api and check
+        const response = await getUnits(accessToken.accessToken + '1');
+        assert(response.status).to.equal(401);
+        assert(response.body).to.have.keys(["statusCode", "error", "message", "attributes"]);
+        assert(response.body.error).to.equal('Unauthorized');
+        assert(response.body.message).to.equal('Invalid token signature');
+    })
+
+    it(`@unit ${testCase.negative.getWithInvalidUnitId}`, async() => {
+        //hit api and check
+        const response = await getUnitById(accessToken.accessToken, unitId + '1');
+        // console.log(response);
+        assert(response.status).to.equal(404);
+        assert(response.body).to.have.keys(["status", "message"]);
+        assert(response.body.status).to.equal('fail');
+        assert(response.body.message).to.equal('id tidak valid');
+    })
+
+    it(`@unit ${testCase.negative.updateWithInvalidUnitId}`, async() => {
+        //hit api and check
+        const response = await updateUnit(accessToken.accessToken, unitId + 'X', unitData);
+        assert(response.status).to.equal(404);
+        assert(response.body).to.have.keys(["status", "message"]);
+        assert(response.body.status).to.equal('fail');
+        assert(response.body.message).to.equal('id tidak valid');
     })
 })

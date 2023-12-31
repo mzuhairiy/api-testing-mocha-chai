@@ -3,7 +3,6 @@ const { getAccessToken } = require('../page/002-auth-page');
 const { addUnit, getUnits, getUnitById, updateUnit, deleteUnit } = require('../page/004-unit-page');
 const { faker } = require('@faker-js/faker');
 const { unitData } = require('../data/004-unit-data');
-const { authData } = require('../data/002-auth-data');
 
 const testCase = {
     positive : {
@@ -33,6 +32,10 @@ let emptyNameUnitData = {
     "name" : "",
     "description" : "berat container"
 };
+let authData = {
+    "email": "toko@toki.com",
+    "password": "1234567"
+}
 
 describe('Units Endpoint', () => {
     before(async () => {

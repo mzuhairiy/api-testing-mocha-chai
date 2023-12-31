@@ -2,7 +2,6 @@ const assert = require('chai').expect;
 const { getAccessToken } = require('../page/002-auth-page');
 const { addCustomer, getCustomers, getCustomerById, updateCustomer, deleteCustomer } = require('../page/006-customers-page');
 const { faker } = require('@faker-js/faker');
-const { authData } = require('../data/002-auth-data');
 const { customerData } = require('../data/006-customers-data');
 
 const testCase = {
@@ -33,6 +32,10 @@ let emptyNameCustomerData = {
     "name" : "",
     "description" : "Makanan Sapi"
 };
+let authData = {
+    "email": "toko@toki.com",
+    "password": "1234567"
+}
 
 describe('Customers Endpoint', () => {
     before(async () => {

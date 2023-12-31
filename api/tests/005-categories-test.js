@@ -2,7 +2,6 @@ const assert = require('chai').expect;
 const { getAccessToken } = require('../page/002-auth-page');
 const { addCategory, getCategories, getCategoryById, updateCategory, deleteCategory } = require('../page/005-categories-page');
 const { faker } = require('@faker-js/faker');
-const { authData } = require('../data/002-auth-data');
 const { categoriesData } = require('../data/005-categories-data');
 
 
@@ -34,6 +33,10 @@ let emptyNameCategoryData = {
     "name" : "",
     "description" : "Makanan Sapi"
 };
+let authData = {
+    "email": "toko@toki.com",
+    "password": "1234567"
+}
 
 describe('Categories Endpoint', () => {
     before(async () => {

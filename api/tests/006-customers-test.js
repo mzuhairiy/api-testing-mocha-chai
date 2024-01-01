@@ -149,3 +149,7 @@ describe('Customers Endpoint', () => {
         assert(response.body.message).to.equal('id tidak valid');
     })
 })
+
+module.exports = {
+    customerId
+}

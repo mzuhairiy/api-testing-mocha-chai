@@ -22,11 +22,13 @@ const expectedAuthKeys = [
 ]
 
 let accessToken;
+let officeId;
 
 describe('Authentication Endpoint', () => {
     it(`@auth ${testCase.positive.validData}`, async () => {
         //hit api and check
         const response = await getAccessToken(authData);
+        //console.log(response.body)
         assert(response.status).to.equal(201);
         assert(response.body).to.have.keys(["message", "status", "data"]);
         assert(response.body).to.have.keys(expectedAuthKeys);
@@ -35,6 +37,7 @@ describe('Authentication Endpoint', () => {
 
         //take some response data and show the data
         accessToken = response.body.data.accessToken;
+        officeId = response.body.data.officeId;
         //console.log(accessToken);
     })
 
@@ -104,5 +107,6 @@ describe('Authentication Endpoint', () => {
 });
 
 module.exports = {
-    accessToken
+    accessToken,
+    officeId
 }

@@ -2,7 +2,7 @@
 Automation KasirAja API using Mocha, Chai, Supertest, and Mochawesome.
 
 # About the Automation
-Automation testing for Register, Authentications, Users, Units, *Products, *Categories, *Customers, and *Transactions endpoints. (*still in progress).
+Automation testing for Register, Authentications, Users, Units, Products, Categories, Customers, and *Transactions endpoints. (*still in progress).
 
 # How to run the Automation
 1. clone the repo and open it on the code editor
